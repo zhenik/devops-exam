@@ -1,0 +1,4 @@
+endpoints:
+  shutdown:
+    sensitive: false
+    enabled: true
