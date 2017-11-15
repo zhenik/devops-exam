@@ -1,5 +1,3 @@
-#!groovy
-
 pipeline {
     agent any
 
@@ -19,7 +17,19 @@ pipeline {
                 sh('mvn install')
             }
         }
-
+        stage('Checkstyle Report'){
+            tools {
+                maven "maven-3.3.9"
+            }
+            steps{
+                sh('mvn checkstyle:checkstyle')
+            }
+            post {
+                success {
+                    step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml', unstableTotalAll:'200'])
+                }
+            }
+        }
         stage('Package'){
             tools {
                 jdk "JDK 8"
