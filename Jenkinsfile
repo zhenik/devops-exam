@@ -2,7 +2,13 @@
 
 pipeline {
     agent any
+
     stages {
+        stage('Git checkout') {
+            steps{
+                git branch: 'master', credentialsId: 'f41ee166-3661-42e2-a229-84cb2bd96ad0', url:'git@github.com:NikitaZhevnitskiy/devops-exam.git'
+            }
+        }
         stage('Test')  {
             tools {
                 jdk "JDK 8"
@@ -30,17 +36,23 @@ pipeline {
                 }
             }
         }
+
         stage('Smoke test'){
             tools {
                 jdk "JDK 8"
             }
             steps {
-                sh 'nohup java -jar -Dserver.port=8081 ./target/calculator.jar > /dev/null 2>&1&'
-                sh 'while ! curl http://localhost:8081/health-check ; do sleep 5;  done'
+                timeout(2){
+                    sh 'nohup java -jar -Dserver.port=8081 ./target/calculator.jar > /dev/null 2>&1&'
+                    sh 'while ! curl http://localhost:8081/health-check ; do sleep 5;  done'
+                }
             }
             post {
                 success {
                     sh 'curl -X POST http://localhost:8081/shutdown'
+                }
+                failure {
+                    echo "Fail"
                 }
             }
         }
