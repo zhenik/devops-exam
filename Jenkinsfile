@@ -17,7 +17,7 @@ pipeline {
                 sh('mvn install')
             }
         }
-        stage('Checkstyle Report'){
+        stage('Checkstyle report'){
             tools {
                 maven "maven-3.3.9"
             }
@@ -27,6 +27,19 @@ pipeline {
             post {
                 success {
                     step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml', unstableTotalAll:'200'])
+                }
+            }
+        }
+        stage('FindBugs report'){
+            tools {
+                maven "maven-3.3.9"
+            }
+            steps{
+                sh('mvn findbugs:findbugs')
+            }
+            post {
+                success {
+                    step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml', unstableTotalAll:'10'])
                 }
             }
         }
