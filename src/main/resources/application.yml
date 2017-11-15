@@ -2,3 +2,6 @@ endpoints:
   shutdown:
     sensitive: false
     enabled: true
+management:
+  security:
+    enabled: false
