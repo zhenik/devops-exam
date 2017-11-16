@@ -43,6 +43,20 @@ pipeline {
                 }
             }
         }
+        stage('TestCoverage report'){
+            tools {
+                maven "maven-3.3.9"
+                jdk "JDK 8"
+            }
+            steps {
+                sh('mvn clean install -Pjacoco')
+            }
+            post {
+                success {
+                    jacoco exclusionPattern: ' **/*Test.class', maximumBranchCoverage: '70', maximumClassCoverage: '70', maximumComplexityCoverage: '70', maximumInstructionCoverage: '80', maximumLineCoverage: '70', maximumMethodCoverage: '70'
+                }
+            }
+        }
         stage('Package'){
             tools {
                 jdk "JDK 8"
@@ -59,7 +73,6 @@ pipeline {
                 }
             }
         }
-
         stage('Smoke test'){
             tools {
                 jdk "JDK 8"
