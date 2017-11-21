@@ -1,0 +1,4 @@
+---
+# service
+myapp_service:
+  name: myapp

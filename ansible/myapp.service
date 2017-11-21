@@ -1,0 +1,10 @@
+[Unit]
+Description=Simple calculator webApi
+After=syslog.target
+
+[Service]
+User=nobody
+ExecStart=/home/nikita/IdeaProjects/STUDY/devops-exam/ansible/temp/app/calculator.jar
+
+[Install]
+WantedBy=multi-user.target

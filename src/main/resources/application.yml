@@ -1,3 +1,5 @@
+server:
+  port: 9080
 endpoints:
   shutdown:
     sensitive: false

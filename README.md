@@ -6,3 +6,5 @@ build
 `docker build -t zhenik/calculator .`  
 run  
 `docker run -d -p8080:8080 zhenik/calculator`
+
+sudo rm -r -f ./target/
