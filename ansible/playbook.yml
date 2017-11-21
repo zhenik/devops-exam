@@ -1,0 +1,17 @@
+# ansible-playbook ./ansible/playbook.yml -i ./ansible/inventory -vv
+- hosts: localhost
+  connection: local
+  tasks:
+
+    - name: Hello, world
+      shell: echo "Hello, world"
+
+#TODO: shutdown previous build & wait a bit
+    - name: Delete last build
+      file: path=./temp/app state=absent
+
+    - name: Creates directory
+      file: path=./temp/app state=directory
+
+    - name: Copy fat-jar file to temp directory
+      copy: src=../target/calculator.jar dest=./temp/app directory_mode=yes unsafe_writes=yes
