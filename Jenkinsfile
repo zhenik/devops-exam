@@ -15,21 +15,27 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-        stage("Reporting") {
-            steps {
-                parallel (
-                        "Bugs" : {
-                            sh('mvn findbugs:findbugs')
-                        },
-                        "Check style" : {
-                            sh('mvn checkstyle:checkstyle')
+        stage('Reporting') {
+            parallel {
+                stage('Bugs') {
+                    steps {
+                        sh('mvn findbugs:findbugs')
+                    }
+                    post {
+                        success {
+                            step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml', unstableTotalAll:'10'])
                         }
-                )
-            }
-            post {
-                success {
-                    step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml', unstableTotalAll:'10'])
-                    step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml', unstableTotalAll:'200'])
+                    }
+                }
+                stage('Check style') {
+                    steps {
+                        sh('mvn checkstyle:checkstyle')
+                    }
+                    post {
+                        success {
+                            step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml', unstableTotalAll:'200'])
+                        }
+                    }
                 }
             }
         }
