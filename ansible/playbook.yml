@@ -11,13 +11,32 @@
     - name: Print container id
       command: echo {{container_id.stdout}}
 
-    - name: Stop container if exists
-      command: docker stop {{container_id.stdout}}
-      when: container_id.stdout != ""
+    - name: Get all containers
+      command: docker ps -a -q
+      register: containers
 
-    - name: Remove container if exists
-      command: docker rm {{container_id.stdout}}
-      when: container_id.stdout != ""
+    - name: Print containers
+      command: echo {{containers.stdout}}
+
+    - name: Stop & Remove containers
+      command: docker stop {{containers.stdout}}
+      when: containers.stdout != ""
+
+#    - name: Stop container if exists
+#      command: docker stop {{container_id.stdout}}
+#      when: container_id.stdout != ""
+
+#    - name: Remove container if exists
+#      command: docker rm {{container_id.stdout}}
+#      when: container_id.stdout != ""
+
+    - name: Find dangling images
+      command: docker images -f dangling=true -q
+      register: dangling_images
+
+    - name: Remove dangling images
+      command: docker rmi -f {{dangling_images.stdout}}
+      when: dangling_images.stdout != ""
 
     - name: Remove image
       shell: docker rmi {{docker_image}}
@@ -26,7 +45,7 @@
       shell: docker pull {{docker_image}}
 
     - name: Up new container
-      shell: docker run -d -p8082:8080 {{docker_image}}
+      shell: docker run --rm -d -p8082:8080 {{docker_image}}
 
     - name: Wait 30 seconds
       pause: seconds=30
