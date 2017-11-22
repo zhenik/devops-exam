@@ -47,8 +47,8 @@
     - name: Up new container
       shell: docker run --rm -d -p8082:8080 {{docker_image}}
 
-    - name: Wait 30 seconds
-      pause: seconds=30
+    - name: Wait 60 seconds
+      pause: seconds=60
 
     - name: Health check
       uri:
