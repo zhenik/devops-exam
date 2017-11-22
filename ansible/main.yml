@@ -1,6 +1,0 @@
-# ansible-playbook ./ansible/playbook.yml -i ./ansible/inventory -vv
-- hosts: localhost
-  connection: local
-  tasks:
-    - name: Cleanup build
-      include: ./playbook/presetup.yml

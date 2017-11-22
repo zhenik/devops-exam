@@ -1,3 +1,0 @@
-  - name: Disable unused service
-    service:
-      name: {{my_service}}
