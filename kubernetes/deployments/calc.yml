@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: calc
+spec:
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: calc
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: calc
+          image: "zhenik/calculator"
+          ports:
+            - name: java
+              containerPort: 8080
