@@ -40,4 +40,7 @@ node {
             image.push()
         }
     }
+    stage("Build server"){
+        sh "ansible-playbook ./ansible/playbook.yml -i ./ansible/inventory -vv"
+    }
 }
