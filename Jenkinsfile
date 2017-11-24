@@ -43,4 +43,12 @@ node {
     stage("Build server"){
         sh "ansible-playbook ./ansible/playbook.yml -i ./ansible/inventory -vv"
     }
+    stage("Maven clean"){
+        sh 'mvn clean'
+    }
+    stage("Slack notification") {
+        def msg = "SUCCESS: JOB:`${env.JOB_NAME}` #${env.BUILD_NUMBER}"
+        def color ='#BDFFC3'
+        slackSend(color: color, message: msg)
+    }
 }
