@@ -60,10 +60,52 @@ Next actions done:
 * generated rsa pub/private key as deployment key to access private repo on github.
 * create jenkins user and add this user to docker, ansible, kubectl groups, to be able run commands without sudo.
 
-
 Notes: 
 I experienced lack of resources at the beginning for Jenkins server. 
-I used 1 core and 512MB RAM machine, Jenkins works very slow and crushes once per 6 hours. Solution was to upgrade machine.  
+I used 1 core and 512MB RAM machine, Jenkins works very slow and crushes once per 6 hours. 
+Solution was upgrade machine.  
+
+## 3 Jenkins server
+Jenkins server accessible on:  [95.85.15.63:8080](http://95.85.15.63:8080)  
+Installed with recommended plugins. For auth I used matrix-based security. 
+I added global credentials for dockerhub and slack integration.
+Additional plugin disk usage space to track space of jenkins directory. I found it very useful. 
+Jenkins has own user in system, that I added to several groups to be available run several binaries without sudo.
+Also I able access login logs for security purpose. ([Documentation](https://wiki.jenkins.io/display/JENKINS/Access+Logging))  
+Setup Java automatically from oracle (java 8 last release). Setup maven automatically v.3.3.9. I installed maven wrapper to keep opportunity exec 
+maven with the same version that project was build. ([More info](https://github.com/takari/maven-wrapper))  
+My virtual machine has 2 cores, I setup 2 executors for Jenkins server.
+
+## 4 Pipeline
+All pipeline steps are in Jenkinsfile. I used scripted pipeline, instead of declarative, because more functionality. 
+([see Documentation](https://jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 build  
 `docker build -t zhenik/calculator .`  
