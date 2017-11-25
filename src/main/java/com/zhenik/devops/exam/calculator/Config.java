@@ -14,17 +14,21 @@ import java.util.UUID;
 @Configuration
 public class Config {
 
+    /**
+     * */
     @Bean
     public String getName() {
         return UUID.randomUUID().toString();
     }
+
     /**
-     * */
+     * @return ObjectMapper
+     *  */
     @Bean(name = "OBJECT_MAPPER_BEAN")
     public ObjectMapper jsonObjectMapper() {
         return Jackson2ObjectMapperBuilder.json()
                 .serializationInclusion(JsonInclude.Include.NON_NULL)
-                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS) //ISODate
+                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                 .modules(new JavaTimeModule())
                 .build();
     }

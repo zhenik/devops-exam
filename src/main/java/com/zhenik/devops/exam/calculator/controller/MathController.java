@@ -16,14 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MathController {
 
+    /**
+     * */
     @Autowired
-    String appName;
-
+    private String appName;
+    /**
+     * */
     @Autowired
-    MathService mathService;
-
+    private MathService mathService;
+    /**
+     * */
     @Autowired
-    NumbersValidationService validationService;
+    private NumbersValidationService validationService;
 
     /**
      * */
@@ -37,6 +41,8 @@ public class MathController {
         return "instance: "+ appName + "\nresult: " + result;
     }
 
+    /**
+     * */
     @PostMapping(path = "/math/add", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> add(@RequestBody Numbers numbers) {
         if (!validationService.isNumbersValid(numbers)) {
@@ -63,7 +69,7 @@ public class MathController {
             return ResponseEntity.status(404).build();
         }
         try {
-            double result = mathService.divide(numbers.getN1(),numbers.getN2());
+            double result = mathService.divide(numbers.getN1(), numbers.getN2());
             return ResponseEntity.ok(getResult(result));
         } catch (ArithmeticException e){
             // divide by 0
