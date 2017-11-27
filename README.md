@@ -205,3 +205,5 @@ Application is very simple. I decided to make this simple application because it
 I got extremely useful skills and experience working on this exam solution. I found CI & CD practises are most relevant for 
 nowadays developers. These practises can help accelerate development and operations processes. 
 Reduce costs and make clients more satisfied with product. 
+
+some changes
