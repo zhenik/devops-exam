@@ -59,12 +59,14 @@ public class MathController {
         if (!validationService.isNumbersValid(numbers)) {
             return ResponseEntity.status(404).build();
         }
-        double result = mathService.subtract(numbers.getN1(),numbers.getN2());
+        double result = mathService.subtract(numbers.getN1(), numbers.getN2());
         return ResponseEntity.ok(getResult(result));
     }
 
+    /**
+     * */
     @PostMapping(path = "/math/divide", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<String> divide(@RequestBody Numbers numbers) {
+    public ResponseEntity<String> divide(@RequestBody final Numbers numbers) {
         if (!validationService.isNumbersValid(numbers)){
             return ResponseEntity.status(404).build();
         }
@@ -77,6 +79,8 @@ public class MathController {
         }
     }
 
+    /**
+     * */
     @PostMapping(path = "/math/multiply", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> multiply(@RequestBody Numbers numbers) {
         if (!validationService.isNumbersValid(numbers)) {
