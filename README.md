@@ -5,7 +5,9 @@
 [![Build Status](http://95.85.15.63:8080/buildStatus/icon?job=master-Jenkinsfile)](http://95.85.15.63:8080/job/master-Jenkinsfile/)
 
 Original repository : https://github.com/NikitaZhevnitskiy/devops-exam   
-Current repository contains app source code, Jenkinsfile, ansible scripts, kubernetes scripts, maven wrapper and process documentation.
+Current repository contains app source code, Jenkinsfile, ansible scripts, kubernetes scripts, maven wrapper and process documentation.  
+CD - Continuous delivery  
+CI - Continuous integration
 ## 1 Application
 Build server accessible on  [95.85.15.63:8082](http://95.85.15.63:8082/health-check)  
 Calculator app is RESTful web-api with several endpoints. Client can make request to endpoints 
@@ -137,6 +139,9 @@ Clean target directory, because of disk space.
 Make a slack notification to special channel. 
 
 ## 5 Kubernetes
+NOT AUTOMATED  
+I install minikube last release, unfortunately minikube not designed to provide external url for service, 
+its generated automatically and accessed on localhost only.
 I made setup scrips for deployments and service, can be found in kubernetes directory
 Kubernetes usage locally required [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 
 and [minikube](https://github.com/kubernetes/minikube/releases).  
@@ -151,7 +156,7 @@ Steps to reproduce
 `minikube dashboard`  
 5 get service (gateway) url  
 `minikube service calc --url`  
-------------------------------  
+   
 remove  
    
 6 delete service  
@@ -159,10 +164,44 @@ remove
 7 delete deployments  
 `kubectl delete deployments calc`  
 8 stop minikube  
-`minikube stop`
+`minikube stop`  
 
-Pods will automatically scheduled for deletion.  
+Pods will automatically scheduled for deletion.    
+
 Additional commands :   
 // connect minikube to ur local docker  
 `minikube docker-env`  
 `eval $(minikube docker-env)`
+
+
+## 6 Improvements
+### More automation processes
+I think all setups which I made manually for Jenkins environment can be automated in one ansible script.
+It can make migration processes more flexible and faster such as environment setup: 
+Java, jenkins server, docker, rsa keys generation, ansible and users/groups management on vm.
+### Application adjustments processes
+If I would work with micro-service architecture I would want have load tests, monitoring and reports, before deliver it in production,
+to see application behaviour under loading and processing requests. This stage can be done in after build server and can be triggered before deploy on prod.
+### Security
+I think security should be relevant to product value. But it does not mean that for free project we do not need security. 
+Any cloud solution needs investment and relevant security.  
+I already have logs for login and VM stats as Bandwidth, CPU usage, etc...  
+In current project I can improve Jenkins server access protocol from http to https, buying SSL certificate (it costs money). 
+Provide access only via VPN with additional firewall settings.
+Also application has open endpoint /shutdown for POST request without any credentials, I can improve it. 
+### Play with real kubernetes cluster (instead of minikube)
+I can buy additional VM and install there kubernetes cluster ([Documentation](https://coreos.com/tectonic/docs/latest/tutorials/kubernetes/getting-started.html)).
+Provide access from VM where Jenkins server setup via ssh and use ansible to automate CI & CD processes. Or use tools such as gcloud with embedded kubernetes cluster.
+### Create Jenkins slave server
+I can also delegate parts of pipeline steps to slave server, just label it with 'slave node' for example. (Cost money)
+I played with it a bit, I provided ssh access from master node to slave node and configure jenkins server on master vm, later I deleted it, its not in final solution (cost money).
+### Triggering CD from stage env to prod env
+It could be good practise to have trigger between staging server and CD to prod server via notification, where user should aprove delivery to prod.
+### Improve application
+Application is very simple. I decided to make this simple application because it give me opportunity to focus on exam tasks. Time management - I have another 3 exam projects in parallel.
+
+
+## 7 Conclusion
+I got extremely useful skills and experience working on this exam solution. I found CI & CD practises are most relevant for 
+nowadays developers. These practises can help accelerate development and operations processes. 
+Reduce costs and make clients more satisfied with product. 
