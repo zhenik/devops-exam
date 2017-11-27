@@ -1,4 +1,8 @@
 # DevOps exam  
+[VIDEO DESCRIPTION youtube](https://youtu.be/NTP0h9jUsyw)    
+
+  
+  
 `travis`  
 [![Build Status](https://travis-ci.com/NikitaZhevnitskiy/devops-exam.svg?token=6FYqXrfAk2ZHo34Tq8Gp&branch=master)](https://travis-ci.com/NikitaZhevnitskiy/devops-exam)  
 `jenkins`   
@@ -199,7 +203,11 @@ I played with it a bit, I provided ssh access from master node to slave node and
 It could be good practise to have trigger between staging server and CD to prod server via notification, where user should aprove delivery to prod.
 ### Improve application
 Application is very simple. I decided to make this simple application because it give me opportunity to focus on exam tasks. Time management - I have another 3 exam projects in parallel.
-
+### Use Jenkins LTS version
+Next time I will use LTS stable version. I faced with some weird behaviour, sometimes jenkins crushes.
+### Logs handling
+I activate logs for loggins and its basically log everything, I run out of disk space once, I had to manually delete /var/log/jenkins/jenkins.log  (was about 16Gb).   
+Read documentation more.
 
 ## 7 Conclusion
 I got extremely useful skills and experience working on this exam solution. I found CI & CD practises are most relevant for 
